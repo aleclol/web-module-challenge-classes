@@ -44,7 +44,25 @@ class Airplane {
 */
 
 class Person {
-  
+  constructor (name, age){
+    this.name = name;
+    this.age = age;
+    this.stomach = [];
+  }
+
+  eat(someFood){
+    if(this.stomach.length < 10){
+    this.stomach.push(someFood);
+    }
+  }
+
+  poop(){
+    this.stomach = [];
+  }
+
+  toString(){
+    `${this.name}, ${this.age}`
+  }
 }
 
 /*
@@ -62,8 +80,32 @@ class Person {
 */
 
 class Car {
-  
+  constructor(model,mpg){
+    this.model = model;
+    this.milesPerGallon = mpg;
+    this.tank = 0;
+    this.odometer = 0;
+  }
+
+  fill(gallons){
+    this.tank += gallons;
+  }
+
+  drive(distance){
+    this.odometer += distance;
+    this.tank += -distance / this.milesPerGallon;
+    if(this.tank <= 0){
+      this.tank = 0;
+      return `I ran out of fuel at ${this.odometer} miles!`
+    }
+  }
 }
+
+const myCivic = new Car('Civic', 32);
+myCivic.fill(10);
+myCivic.drive(31);
+console.log(myCivic.drive(321));
+//console.log(Car('Honda Civic', 32))
 
 /*
   TASK 3
@@ -79,7 +121,15 @@ class Car {
 */
 
 class Lambdasian {
-  
+  constructor(obj){
+    this.name = obj.name;
+    this.age = obj.age;
+    this.location = obj.location;
+  }
+
+  speak(){
+    `Hello my name is ${this.name}, I am from ${this.location}`
+  }
 }
 
 /*
@@ -97,9 +147,34 @@ class Lambdasian {
         + `grade` receives a `student` object and a `subject` string as arguments and returns '{student.name} receives a perfect score on {subject}'
 */
 
-class Instructor {
+class Instructor extends Lambdasian {
+  constructor(obj){
+    super(obj);
+    this.specialty = obj.specialty;
+    this.favLanguage = obj.favLanguage;
+    this.catchPhrase = obj.catchPhrase;
+  }
+
+  demo(subject){
+    return `Today we are learning about ${subject}`
+  }
+
+  grade(student, subject){
+    return `${student.name} receives a perfect score on ${subject}`
+  }
 
 }
+
+// const Nina = new Instructor({
+//   name: 'Nina',
+//   age: 52,
+//   location: 'Indianapolis',
+//   specialty: 'English Literature',
+//   favLanguage: 'English',
+//   catchPhrase: 'See me after class.'
+// })
+// const test1 = Nichole.demo('Jonathan Edwards');
+// console.log(test1);
 
 /*
   TASK 5
@@ -117,8 +192,25 @@ class Instructor {
         + `sprintChallenge` similar to PRAssignment but returns `student.name has begun sprint challenge on {subject}`
 */
 
-class Student {
-   
+class Student extends Lambdasian{
+   constructor(obj){
+    super(Lambdasian);
+    this.previousBackground = obj.previousBackground;
+    this.className = obj.className;
+    this.favSubjects = obj.favSubjects;
+   }
+
+   listSubjects(){
+    return `Loving ${this.favSubjects}`;
+   }
+
+   PRAssignment(subject){
+    return `${Student.name} has submitted a PR for ${subject}`;
+   }
+
+   sprintChallenge(subject){
+    return `${Student.name} has begun sprint challenge on ${subject}`;
+   }
 }
 
 /*
@@ -135,8 +227,20 @@ class Student {
         + `debugsCode` a method that takes in a student object and a subject and returns `{name} debugs {student.name}'s code on {subject}`
 */
 
-class ProjectManager {
-   
+class ProjectManager extends Instructor {
+   constructor(obj){
+    super(obj);
+    this.gradClassName = obj.gradClassName;
+    this.favInstructor = obj.favInstructor;
+   }
+
+   standUp(slackChannel){
+    return `${this.name} announces to ${slackChannel}, @channel standy times!`;
+   }
+
+   debugsCode(studentObj){
+    return `${this.name} debugs ${studentObj.name}'s code on ${subject}`;
+   }
 }
 
 /*
