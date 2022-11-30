@@ -61,7 +61,7 @@ class Person {
   }
 
   toString(){
-    `${this.name}, ${this.age}`
+    return `${this.name}, ${this.age}`;
   }
 }
 
@@ -92,20 +92,23 @@ class Car {
   }
 
   drive(distance){
-    this.odometer += distance;
-    this.tank += -distance / this.milesPerGallon;
-    if(this.tank <= 0){
+    const driveableMiles = this.tank * this.milesPerGallon;
+    if(distance <= driveableMiles){
+      this.odometer += distance;
+      this.tank += -distance / this.milesPerGallon;
+    }else{
+      this.odometer += driveableMiles;
       this.tank = 0;
       return `I ran out of fuel at ${this.odometer} miles!`
     }
   }
 }
 
-const myCivic = new Car('Civic', 32);
-myCivic.fill(10);
-myCivic.drive(31);
-console.log(myCivic.drive(321));
-//console.log(Car('Honda Civic', 32))
+// const myCivic = new Car('Civic', 32);
+// myCivic.fill(10);
+// //myCivic.drive(330);
+// console.log(myCivic.drive(330));
+// //console.log(Car('Honda Civic', 32))
 
 /*
   TASK 3
@@ -128,9 +131,17 @@ class Lambdasian {
   }
 
   speak(){
-    `Hello my name is ${this.name}, I am from ${this.location}`
+    return `Hello my name is ${this.name}, I am from ${this.location}`
   }
 }
+
+// const theDude = new Lambdasian({
+//   name: 'The Dude',
+//   age: 'Abides',
+//   location: 'Los Angeles'
+// });
+
+// console.log(theDude.speak());
 
 /*
   TASK 4
@@ -194,7 +205,7 @@ class Instructor extends Lambdasian {
 
 class Student extends Lambdasian{
    constructor(obj){
-    super(Lambdasian);
+    super(obj);
     this.previousBackground = obj.previousBackground;
     this.className = obj.className;
     this.favSubjects = obj.favSubjects;
@@ -205,11 +216,11 @@ class Student extends Lambdasian{
    }
 
    PRAssignment(subject){
-    return `${Student.name} has submitted a PR for ${subject}`;
+    return `${this.name} has submitted a PR for ${subject}`;
    }
 
    sprintChallenge(subject){
-    return `${Student.name} has begun sprint challenge on ${subject}`;
+    return `${this.name} has begun sprint challenge on ${subject}`;
    }
 }
 
@@ -238,8 +249,8 @@ class ProjectManager extends Instructor {
     return `${this.name} announces to ${slackChannel}, @channel standy times!`;
    }
 
-   debugsCode(studentObj){
-    return `${this.name} debugs ${studentObj.name}'s code on ${subject}`;
+   debugsCode(Student, subject){
+    return `${this.name} debugs ${Student.name}'s code on ${subject}`;
    }
 }
 
